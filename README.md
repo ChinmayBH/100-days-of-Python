@@ -1,2 +1,2 @@
 # 100-days-of-Python
-This repository is for practicing and refining the Python basics, including essential skills and syntax.
+This repository is dedicated to learning, practicing, and mastering the fundamentals of Python programming. It serves as a comprehensive resource for honing essential programming skills, understanding core concepts, and refining syntax. Whether you're a beginner aiming to build a solid foundation or an experienced developer looking to revisit Python basics, this repository provides a structured and hands-on approach to improving your proficiency in the language.
