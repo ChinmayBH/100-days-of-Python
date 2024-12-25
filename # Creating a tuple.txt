@@ -1,0 +1,12 @@
+# Creating a tuple
+tuple_example = (1, 2, 3)
+
+print(tuple_example)
+
+                                                   # Output: (1, 2, 3)
+
+print (tuple_example[1])             
+
+                                                   #Output: ‘2’
+
+print (tuple_example[0])             #Output: ‘1’
