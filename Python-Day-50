@@ -1,0 +1,84 @@
+import math
+from functools import wraps
+
+# Custom Exception for Invalid Dimensions
+class InvalidDimensionError(Exception):
+    def __init__(self, message="Dimensions must be positive values."):
+        self.message = message
+        super().__init__(self.message)
+
+# Decorator for logging method calls
+def log_method_call(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"Calling method: {func.__name__} with args: {args}, kwargs: {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"Method {func.__name__} returned: {result}")
+        return result
+    return wrapper
+
+# Base Class for Geometric Shapes
+class Shape:
+    def __init__(self, name):
+        self.name = name
+
+    @log_method_call
+    def area(self):
+        raise NotImplementedError("Subclasses must implement this method")
+
+    def __str__(self):
+        return f"{self.name} with area: {self.area()}"
+
+# Derived Class for Circle
+class Circle(Shape):
+    def __init__(self, radius):
+        super().__init__("Circle")
+        if radius <= 0:
+            raise InvalidDimensionError("Radius must be a positive value.")
+        self.radius = radius
+
+    @log_method_call
+    def area(self):
+        return math.pi * (self.radius ** 2)
+
+# Derived Class for Rectangle
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        super().__init__("Rectangle")
+        if width <= 0 or height <= 0:
+            raise InvalidDimensionError("Width and height must be positive values.")
+        self.width = width
+        self.height = height
+
+    @log_method_call
+    def area(self):
+        return self.width * self.height
+
+# Derived Class for Triangle
+class Triangle(Shape):
+    def __init__(self, base, height):
+        super().__init__("Triangle")
+        if base <= 0 or height <= 0:
+            raise InvalidDimensionError("Base and height must be positive values.")
+        self.base = base
+        self.height = height
+
+    @log_method_call
+    def area(self):
+        return 0.5 * self.base * self.height
+
+# Example Usage
+try:
+    circle = Circle(5)
+    print(circle)
+
+    rectangle = Rectangle(4, 6)
+    print(rectangle)
+
+    triangle = Triangle(3, 7)
+    print(triangle)
+
+    # This will raise an InvalidDimensionError
+    invalid_circle = Circle(-1)
+except InvalidDimensionError as e:
+    print(f"Error: {e}")
