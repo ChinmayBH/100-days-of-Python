@@ -1,0 +1,24 @@
+import logging
+
+# Configure the logging settings
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def divide_numbers(a, b):
+    """
+    A simple function to divide two numbers and log the process.
+    """
+    logging.info(f"Attempting to divide {a} by {b}.")
+    
+    try:
+        result = a / b
+        logging.info(f"Division successful. Result: {result}")
+        return result
+    except ZeroDivisionError:
+        logging.error("Division by zero is not allowed.")
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    divide_numbers(10, 2)
+    divide_numbers(10, 0)
