@@ -1,0 +1,65 @@
+from moviepy.editor import VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip
+import os
+import numpy as np
+
+# Step 1: Generate a placeholder video with text
+def generate_video(text, output_video_path="output_video.mp4"):
+    # Create a placeholder video with text
+    clip = TextClip(text, fontsize=50, color="white", size=(1280, 720))
+    clip = clip.set_duration(5)  # 5-second video
+    clip.write_videofile(output_video_path, fps=24)
+    print(f"Placeholder video generated and saved to {output_video_path}")
+
+# Step 2: Generate a simple beep sound (if no music file is provided)
+def generate_beep(output_music_path="placeholder_beep.wav"):
+    # Generate a simple beep sound (1 second, 440 Hz)
+    sample_rate = 44100  # 44.1 kHz
+    duration = 5  # 5 seconds
+    frequency = 440  # 440 Hz (A4 note)
+    t = np.linspace(0, duration, int(sample_rate * duration), endpoint=False)
+    beep = 0.5 * np.sin(2 * np.pi * frequency * t)  # Generate sine wave
+    beep = np.int16(beep * 32767)  # Convert to 16-bit PCM format
+
+    # Save the beep as a WAV file
+    from scipy.io.wavfile import write
+    write(output_music_path, sample_rate, beep)
+    print(f"Placeholder beep generated and saved to {output_music_path}")
+
+# Step 3: Combine Video and Background Music
+def combine_assets(video_path, music_path, output_final_video="final_video.mp4"):
+    # Load video and music
+    video_clip = VideoFileClip(video_path)
+    music_clip = AudioFileClip(music_path)
+
+    # Set music for the video
+    final_music = music_clip.volumex(0.3).set_duration(video_clip.duration)  # Lower music volume
+
+    # Set combined audio to video
+    final_clip = video_clip.set_audio(final_music)
+
+    # Save the final video
+    final_clip.write_videofile(output_final_video, codec="libx264")
+    print(f"Final video saved to {output_final_video}")
+
+# Main Function
+def main():
+    # Input text (your story or prompt)
+    input_text = "A beautiful sunset over the mountains with birds chirping."
+
+    # Step 1: Generate video
+    generate_video(input_text, "output_video.mp4")
+
+    # Step 2: Generate a placeholder beep (or use pre-rendered music)
+    music_path = "background_music.wav"  # Replace with your music file if available
+    if not os.path.exists(music_path):
+        print("No background music file found. Generating a placeholder beep.")
+        generate_beep("placeholder_beep.wav")
+        music_path = "placeholder_beep.wav"
+
+    # Step 3: Combine video and background music
+    combine_assets("output_video.mp4", music_path, "final_video.mp4")
+
+    print("Process completed! Check the final video.")
+
+if __name__ == "__main__":
+    main()
