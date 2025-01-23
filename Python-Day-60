@@ -1,0 +1,26 @@
+import logging
+
+def list_all_loggers():
+    # Get the root logger
+    root_logger = logging.getLogger()
+    
+    # Print the root logger
+    print(f"Root Logger: {root_logger}")
+    
+    # Iterate through all loggers in the manager
+    for logger_name, logger_instance in logging.Logger.manager.loggerDict.items():
+        print(f"Logger Name: {logger_name}")
+        print(f"Logger Type: {type(logger_instance)}")
+        print(f"Logger Level: {logger_instance.level if isinstance(logger_instance, logging.Logger) else 'N/A'}")
+        print(f"Logger Handlers: {logger_instance.handlers if isinstance(logger_instance, logging.Logger) else 'N/A'}")
+        print("-" * 40)
+
+# Example usage
+if __name__ == "__main__":
+    # Create some loggers for demonstration
+    logging.basicConfig(level=logging.DEBUG)
+    logger1 = logging.getLogger('logger1')
+    logger2 = logging.getLogger('logger2')
+    
+    # List all loggers
+    list_all_loggers()
