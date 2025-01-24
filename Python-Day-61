@@ -1,0 +1,14 @@
+import math
+
+def is_square(n):
+    if n < 0:
+        return False
+    sqrt = math.isqrt(n)
+    return sqrt * sqrt == n
+
+# Example usage:
+number = 16
+if is_square(number):
+    print(f"{number} is a perfect square.")
+else:
+    print(f"{number} is not a perfect square.")
