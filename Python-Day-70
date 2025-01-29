@@ -1,0 +1,18 @@
+from tokenizers import Tokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+from tokenizers.pre_tokenizers import Whitespace
+
+# Initialize BPE tokenizer
+tokenizer = Tokenizer(BPE())
+
+# Use whitespace to split words initially
+tokenizer.pre_tokenizer = Whitespace()
+
+# Train on a small corpus
+trainer = BpeTrainer(special_tokens=["<unk>", "<s>", "</s>"], vocab_size=50)
+tokenizer.train(["data.txt"], trainer)
+
+# Tokenize a sentence
+encoded = tokenizer.encode("I love artificial intelligence")
+print(encoded.tokens)
